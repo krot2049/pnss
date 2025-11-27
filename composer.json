@@ -1,0 +1,21 @@
+{
+    "name": "krot2049/pnss",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ruslan Kozlov",
+            "email": "ackermanqpp0912@mail.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+      "php": "^7.4 | ^8.0"
+    },
+  "autoload": {
+    "psr-4": {
+      "Src\\": "core/Src/",
+      "App\\": "app/"
+    }
+  }
+}
