@@ -18,10 +18,10 @@ class Route {
         }
     }
 
-    public function start() : void {
+    public function start(): void
+    {
         $path = explode('?', $_SERVER['REQUEST_URI'])[0];
-        $path = str_replace(self::$prefix, '', $path);
-        $path = trim($path, '/');
+        $path = substr($path, strlen(self::$prefix) + 1);
 
         if (!array_key_exists($path, self::$routes)) {
             throw new Error('This path does not exist');

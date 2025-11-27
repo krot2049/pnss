@@ -1,9 +1,9 @@
 <?php
 return [
-    'root' => 'pop-it-mvc',
+    'root' => 'pop-it-mvc/pnss',
     'classes' => [
         'app',
-        'core'
+        'core/Src'
     ],
     'routes' => 'routes',
     'views' => 'views'

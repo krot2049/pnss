@@ -1,20 +1,31 @@
 <?php
 const DIR_ROOT = __DIR__ . '/../';
 const DIR_CONFIG = 'config';
-// пользовательская функция автозагрузки классов
-spl_autoload_register(function ($className){
-    $paths = include DIR_ROOT . 'config/path.php';
-    $className = str_replace('\\', '/', $className);
 
-   foreach ($paths['classes'] as $path) {
-       $fileName = $_SERVER['DOCUMENT_ROOT'] .
-           "/$paths[root]/$path/$className.php";
-       if (file_exists($fileName)) {
-           require_once $fileName;
-       }
-   }
+// пользовательская функция автозагрузки классов
+spl_autoload_register(function ($className) {
+    if (strpos($className, 'App\\') === 0) {
+        $className = str_replace('App\\', 'app/', $className);
+        $className = str_replace('\\', '/', $className);
+        $fileName = DIR_ROOT . $className . '.php';
+    }
+    elseif (strpos($className, 'Src\\') === 0) {
+        $className = str_replace('Src\\', 'core/Src/', $className);
+        $className = str_replace('\\', '/', $className);
+        $fileName = DIR_ROOT . $className . '.php';
+    }
+
+    if (isset($fileName) && file_exists($fileName)) {
+        require_once $fileName;
+        return;
+    }
+
+    throw new \Exception("Class $className not found");
 });
 
+if (file_exists(DIR_ROOT . 'vendor/autoload.php')) {
+    require_once DIR_ROOT . 'vendor/autoload.php';
+}
 // функция возвращающая массив всех настроек приложения
 function getConfigs() : array {
     $settings = [];
@@ -29,6 +40,8 @@ function getConfigs() : array {
 }
 
 $settings = getConfigs();
+
+Src\Route::setPrefix('/pop-it-mvc/pnss');
 
 require_once DIR_ROOT . 'routes/web.php';
 
